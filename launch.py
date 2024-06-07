@@ -2,6 +2,7 @@ import os
 import telebot
 from telebot import types
 from english import send_english_options
+from math_course.math_course import send_math_options
 from config import *
 from dotenv import load_dotenv
 
@@ -10,7 +11,8 @@ load_dotenv()
 
 bot = telebot.TeleBot(os.getenv('TOKEN'))
 text_reply_scenarios = {
-    SUBJECT_ENGLISH: send_english_options
+    SUBJECT_ENGLISH: send_english_options,
+    SUBJECT_MATH: send_math_options
 }
 
 @bot.message_handler(commands=['start'])
