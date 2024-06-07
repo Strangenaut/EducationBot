@@ -45,4 +45,5 @@ def send_reply_to_text(message):
 
     text_reply_scenarios[message.text](message, bot)
 
+
 bot.infinity_polling()

@@ -8,12 +8,18 @@ from english_course.config import *
 from util.load_files import load_files
 
 
+english_options_descriptions = [
+    ENGLISH_TRAINING_MATERIALS,
+    WORDS_TEST,
+    ENGLISH_USEFUL_LINKS,
+    BACK
+]
+
 def send_english_options(message, bot):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add(types.KeyboardButton(ENGLISH_TRAINING_MATERIALS))
-    markup.add(types.KeyboardButton(WORDS_TEST))
-    markup.add(types.KeyboardButton(ENGLISH_USEFUL_LINKS))
-    markup.add(types.KeyboardButton(BACK))
+
+    for description in english_options_descriptions:
+        markup.add(types.KeyboardButton(description))
 
     bot.send_message(message.chat.id, text=MAKE_CHOICE, parse_mode='html', reply_markup=markup)
 
