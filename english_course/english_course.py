@@ -8,14 +8,25 @@ from english_course.config import *
 from util.load_files import load_files
 
 
+english_options_descriptions = [
+    ENGLISH_TRAINING_MATERIALS,
+    WORDS_TEST,
+    ENGLISH_USEFUL_LINKS,
+    BACK
+]
+
 def send_english_options(message, bot):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add(types.KeyboardButton(ENGLISH_TRAINING_MATERIALS))
-    markup.add(types.KeyboardButton(WORDS_TEST))
-    markup.add(types.KeyboardButton(ENGLISH_USEFUL_LINKS))
-    markup.add(types.KeyboardButton(BACK))
 
-    bot.send_message(message.chat.id, text=MAKE_CHOICE, parse_mode='html', reply_markup=markup)
+    for description in english_options_descriptions:
+        markup.add(types.KeyboardButton(description))
+
+    bot.send_message(
+        message.chat.id, 
+        text=MAKE_CHOICE, 
+        parse_mode='html', 
+        reply_markup=markup
+    )
 
 def send_english_training_materials(message, bot):
     bot.send_message(message.chat.id, TAKE_ENGLISH_MATERIALS)
@@ -23,24 +34,15 @@ def send_english_training_materials(message, bot):
     bot.send_media_group(message.chat.id, media)
 
 def load_words():
-    xls_file_path = os.path.join(PROJECT_ROOT_PATH, 'english_course', 'data', 'Words.xlsx')
-    xls = pd.read_excel(xls_file_path, sheet_name=None)
-    words = {}
-
-    for _, df in xls.items():
-        for i in range(len(df)):
-            word = df['Eng'][i]
-            translation = df['Rus'][i]
-
-            words[word] = translation
-
-    return words
+    df = pd.read_csv('data/Words.csv')
+    return dict(zip(df.Eng, df.Rus))
 
 def send_word_test_explanation(message, bot):
-    global current_words_dict
-    current_words_dict = words.copy()
-
-    bot.send_message(message.chat.id, WORDS_TEST_EXPLANATION.format(len(words)), parse_mode='html')
+    bot.send_message(
+        message.chat.id, 
+        WORDS_TEST_EXPLANATION.format(len(words)), 
+        parse_mode='html'
+    )
 
 def send_word_question(message, bot):
     global last_word, current_words_dict, min_index, max_index
