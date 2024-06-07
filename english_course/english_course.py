@@ -21,7 +21,12 @@ def send_english_options(message, bot):
     for description in english_options_descriptions:
         markup.add(types.KeyboardButton(description))
 
-    bot.send_message(message.chat.id, text=MAKE_CHOICE, parse_mode='html', reply_markup=markup)
+    bot.send_message(
+        message.chat.id, 
+        text=MAKE_CHOICE, 
+        parse_mode='html', 
+        reply_markup=markup
+    )
 
 def send_english_training_materials(message, bot):
     bot.send_message(message.chat.id, TAKE_ENGLISH_MATERIALS)
@@ -33,10 +38,11 @@ def load_words():
     return dict(zip(df.Eng, df.Rus))
 
 def send_word_test_explanation(message, bot):
-    global current_words_dict
-    current_words_dict = words.copy()
-
-    bot.send_message(message.chat.id, WORDS_TEST_EXPLANATION.format(len(words)), parse_mode='html')
+    bot.send_message(
+        message.chat.id, 
+        WORDS_TEST_EXPLANATION.format(len(words)), 
+        parse_mode='html'
+    )
 
 def send_word_question(message, bot):
     global last_word, current_words_dict, min_index, max_index
