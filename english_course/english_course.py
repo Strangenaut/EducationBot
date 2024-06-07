@@ -65,16 +65,15 @@ def send_word_question(message, bot):
     if message.text == FORGOT and last_word != None:
         bot.send_message(message.chat.id, text='Перевод: ' + words[last_word])
     
-    i = random.randint(0, len(current_words_dict) - 1)
-    key = list(current_words_dict.keys())[i]
+    key = random.choice(list(current_words_dict.keys()))
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    buttons_row = [
-        types.KeyboardButton(REMEMBER),
-        types.KeyboardButton(FORGOT),
-        types.KeyboardButton(BACK)
+    buttons_descriptions = [
+        REMEMBER,
+        FORGOT,
+        BACK
     ]
-    markup.add(*buttons_row)
+    markup.add(*list(map(types.KeyboardButton, buttons_descriptions)))
 
     bot.send_message(message.chat.id, text=key, reply_markup=markup)
     last_word = key
