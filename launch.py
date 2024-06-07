@@ -12,15 +12,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 bot = telebot.TeleBot(os.getenv('TOKEN'))
-text_reply_scenarios = {
-    SUBJECT_ENGLISH: send_english_options,
-    SUBJECT_MATH: send_math_options,
-    ENGLISH_TRAINING_MATERIALS: send_english_training_materials,
-    WORDS_TEST: send_word_test_explanation,
-    REMEMBER: send_word_question,
-    FORGOT: send_word_question,
-    ENGLISH_USEFUL_LINKS: send_english_useful_links
+subject_dialogs = {
+    SUBJECT_ENGLISH: EnglishSubjectDialogue(bot=bot),
+    SUBJECT_MATH: None
 }
+current_subject_dialogue = None
 
 @bot.message_handler(commands=['start'])
 def start_bot(message):    
@@ -35,15 +31,16 @@ def start_bot(message):
 
 @bot.message_handler(content_types=['text'])
 def send_reply_to_text(message):
+    global current_subject_dialogue
     if message.text == BACK:
+        current_subject_dialogue = None
         start_bot(message)
         return
 
-    if message.text.replace(' ', '').replace('-', '').isnumeric():
-        send_word_question(message, bot)
-        return
+    if current_subject_dialogue is None:
+        current_subject_dialogue = subject_dialogs[message.text]
 
-    text_reply_scenarios[message.text](message, bot)
+    current_subject_dialogue.send(message)
 
 
 bot.infinity_polling()
