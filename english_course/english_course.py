@@ -68,12 +68,12 @@ def send_word_question(message, bot):
     key = random.choice(list(current_words_dict.keys()))
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    buttons_row = [
+    buttons_descriptions = [
         REMEMBER,
         FORGOT,
         BACK
     ]
-    markup.add(*list(map(types.KeyboardButton, buttons_row)))
+    markup.add(*list(map(types.KeyboardButton, buttons_descriptions)))
 
     bot.send_message(message.chat.id, text=key, reply_markup=markup)
     last_word = key
