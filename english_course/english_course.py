@@ -10,6 +10,7 @@ from util.load_files import load_files
 
 def send_english_options(message, bot):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    
     markup.add(types.KeyboardButton(ENGLISH_TRAINING_MATERIALS))
     markup.add(types.KeyboardButton(WORDS_TEST))
     markup.add(types.KeyboardButton(ENGLISH_USEFUL_LINKS))
@@ -23,18 +24,8 @@ def send_english_training_materials(message, bot):
     bot.send_media_group(message.chat.id, media)
 
 def load_words():
-    xls_file_path = os.path.join(PROJECT_ROOT_PATH, 'english_course', 'data', 'Words.xlsx')
-    xls = pd.read_excel(xls_file_path, sheet_name=None)
-    words = {}
-
-    for _, df in xls.items():
-        for i in range(len(df)):
-            word = df['Eng'][i]
-            translation = df['Rus'][i]
-
-            words[word] = translation
-
-    return words
+    df = pd.read_csv('data/Words.csv')
+    return dict(zip(df.Eng, df.Rus))
 
 def send_word_test_explanation(message, bot):
     global current_words_dict
