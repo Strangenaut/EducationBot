@@ -1,7 +1,7 @@
 import os
 import telebot
 from telebot import types
-from english_course.english_course import *
+from english_course.english_subject_dialogue import EnglishSubjectDialogue
 from math_course.math_course import *
 from config import *
 from english_course.config import *
@@ -12,15 +12,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 bot = telebot.TeleBot(os.getenv('TOKEN'))
-text_reply_scenarios = {
-    SUBJECT_ENGLISH: send_english_options,
-    SUBJECT_MATH: send_math_options,
-    ENGLISH_TRAINING_MATERIALS: send_english_training_materials,
-    WORDS_TEST: send_word_test_explanation,
-    REMEMBER: send_word_question,
-    FORGOT: send_word_question,
-    ENGLISH_USEFUL_LINKS: send_english_useful_links
+subject_dialogs = {
+    SUBJECT_ENGLISH: EnglishSubjectDialogue(bot=bot),
+    SUBJECT_MATH: None
 }
+current_subject_dialogue = None
 
 @bot.message_handler(commands=['start'])
 def start_bot(message):    
@@ -31,18 +27,20 @@ def start_bot(message):
     ]
     markup.add(*buttons_row)
     
-    bot.send_message(message.chat.id, WELCOME_MESSAGE, parse_mode='html', reply_markup=markup)
+    bot.send_message(message.chat.id, WELCOME_MESSAGE, reply_markup=markup)
 
 @bot.message_handler(content_types=['text'])
 def send_reply_to_text(message):
+    global current_subject_dialogue
     if message.text == BACK:
+        current_subject_dialogue = None
         start_bot(message)
         return
 
-    if message.text.replace(' ', '').replace('-', '').isnumeric():
-        send_word_question(message, bot)
-        return
+    if current_subject_dialogue is None:
+        current_subject_dialogue = subject_dialogs[message.text]
 
-    text_reply_scenarios[message.text](message, bot)
+    current_subject_dialogue.send(message)
+
 
 bot.infinity_polling()
