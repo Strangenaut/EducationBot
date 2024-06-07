@@ -42,9 +42,24 @@ class MathSubjectDialogue(SubjectDialogue):
             self.send_options(message)
             return
         
+        self.send_training_materials(message)
+
+    def send_training_materials(self, message):
         subject_name = self.translation_dict[message.text]
         subject_path = os.path.join(self.materials_path, subject_name)
-        self.send_training_materials(subject_path)
+        media = load_files(subject_path)
 
-    def send_training_materials(self, subject_path):
-        pass
+        documents = []
+        for file in media:
+            if file is str:
+                self.bot.send_message(
+                    message.chat.id,
+                    file
+                )
+                continue
+            documents.append(file)        
+
+        self.bot.send_media_group(
+                message.chat.id,
+                documents
+        )

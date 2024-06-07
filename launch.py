@@ -14,7 +14,7 @@ load_dotenv()
 bot = telebot.TeleBot(os.getenv('TOKEN'))
 subject_dialogs = {
     SUBJECT_ENGLISH: EnglishSubjectDialogue(bot=bot),
-    SUBJECT_MATH: None
+    SUBJECT_MATH: MathSubjectDialogue(bot=bot)
 }
 current_subject_dialogue = None
 
