@@ -1,6 +1,6 @@
 from config import *
 from telebot import types
-from util import load_files
+from util.load_files import load_files
 
 
 class SubjectDialogue:
@@ -34,5 +34,3 @@ class SubjectDialogue:
 
     def send_useful_links(self, message):
         self.bot.send_message(message.chat.id, text=self.links, disable_web_page_preview=True)
-
-

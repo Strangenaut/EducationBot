@@ -19,7 +19,7 @@ subject_dialogs = {
 current_subject_dialogue = None
 
 @bot.message_handler(commands=['start'])
-def start_bot(message):    
+def start_bot(message):
     markup = types.ReplyKeyboardMarkup(row_width = 2, resize_keyboard=True)
     buttons_row = [
         types.KeyboardButton(SUBJECT_ENGLISH), 
@@ -32,6 +32,7 @@ def start_bot(message):
 @bot.message_handler(content_types=['text'])
 def send_reply_to_text(message):
     global current_subject_dialogue
+    
     if message.text == BACK:
         current_subject_dialogue = None
         start_bot(message)
