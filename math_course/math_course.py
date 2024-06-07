@@ -2,10 +2,49 @@ import os
 from config import *
 from math_course.config import *
 from util.load_files import load_files
+from util.subject_dialogue import SubjectDialogue
 
 
-math_data_path = os.path.join(PROJECT_ROOT_PATH, 'math_course', 'data')
-def send_math_options(message, bot):
-    bot.send_message(message.chat.id, MATH_TRAINING_MATERIALS)
-    media = load_files(math_data_path)
-    bot.send_media_group(message.chat.id, media)
+# math_data_path = os.path.join(PROJECT_ROOT_PATH, 'math_course', 'data')
+# def send_math_options(message, bot):
+#     bot.send_message(message.chat.id, MATH_TRAINING_MATERIALS)
+#     media = load_files(math_data_path)
+#     bot.send_media_group(message.chat.id, media)
+
+
+class MathSubjectDialogue(SubjectDialogue):
+    def __init__(self, bot):
+        materials_path = os.path.join(PROJECT_ROOT_PATH, 'math_course', 'data')
+        options_descriptions = [
+            DIFF_EQUATIONS,
+            LINAL,
+            MATH_AN,
+            PREVIOUS_TASKS_EXAMPLES,
+            PROB_THEORY,
+            STATS
+        ]
+
+        super().__init__(
+            bot=bot, 
+            materials_path=materials_path, 
+            options_descriptions=options_descriptions, 
+            text_reply_scenarios=None, 
+            links=None
+        )
+        self.translation_dict = {
+            subject_name: subject_name_translation 
+            for subject_name, subject_name_translation 
+            in zip(options_descriptions, os.listdir(materials_path))
+        }
+
+    def send(self, message):
+        if message.text == SUBJECT_MATH:
+            self.send_options(message)
+            return
+        
+        subject_name = self.translation_dict[message.text]
+        subject_path = os.path.join(self.materials_path, subject_name)
+        self.send_training_materials(subject_path)
+
+    def send_training_materials(self, subject_path):
+        pass

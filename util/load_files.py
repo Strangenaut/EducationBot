@@ -9,5 +9,4 @@ def load_files(files_path):
     for file_name in files_list:
         file_path = os.path.join(files_path, file_name)
         media.append(types.InputMediaDocument(media=types.InputFile(file_path)))
-    
     return media
