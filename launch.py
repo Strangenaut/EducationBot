@@ -1,7 +1,7 @@
 import os
 import telebot
 from telebot import types
-from english_course.english_course import *
+from english_course.english_subject_dialogue import *
 from math_course.math_course import *
 from config import *
 from english_course.config import *
