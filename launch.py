@@ -31,7 +31,7 @@ def start_bot(message):
     ]
     markup.add(*buttons_row)
     
-    bot.send_message(message.chat.id, WELCOME_MESSAGE, parse_mode='html', reply_markup=markup)
+    bot.send_message(message.chat.id, WELCOME_MESSAGE, reply_markup=markup)
 
 @bot.message_handler(content_types=['text'])
 def send_reply_to_text(message):
