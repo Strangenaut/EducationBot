@@ -21,7 +21,8 @@ class MathSubjectDialogue(SubjectDialogue):
             MATH_AN,
             PREVIOUS_TASKS_EXAMPLES,
             PROB_THEORY,
-            STATS
+            STATS,
+            BACK
         ]
 
         super().__init__(
@@ -34,7 +35,7 @@ class MathSubjectDialogue(SubjectDialogue):
         self.translation_dict = {
             subject_name: subject_name_translation 
             for subject_name, subject_name_translation 
-            in zip(options_descriptions, os.listdir(materials_path))
+            in zip(options_descriptions[:-1], os.listdir(materials_path))
         }
 
     def send(self, message):
@@ -49,17 +50,23 @@ class MathSubjectDialogue(SubjectDialogue):
         subject_path = os.path.join(self.materials_path, subject_name)
         media = load_files(subject_path)
 
-        documents = []
-        for file in media:
-            if file is str:
-                self.bot.send_message(
-                    message.chat.id,
-                    file
+        documents = list(
+            filter(
+                lambda x: 
+                    not x.media.file_name.endswith('.txt'),
+                    media
                 )
-                continue
-            documents.append(file)        
-
+            )
         self.bot.send_media_group(
                 message.chat.id,
                 documents
         )
+        links_path = os.path.join(subject_path, f'{LINKS_FILE_NAME}.txt')
+
+        if not os.path.exists(links_path):
+            return
+
+        with open(links_path, 'r') as file:
+            self.links = file.read()
+
+        self.send_useful_links(message)
