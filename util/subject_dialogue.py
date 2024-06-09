@@ -62,10 +62,16 @@ class SubjectDialogue:
                 disable_web_page_preview=True
                 )
 
+    def send_links_adding_explanation(self, message):
+        self.bot.send_message(message.chat.id, text=LINKS_ADDING_EXPLANATION)
+    
+    def send_materials_adding_explanation(self, message):
+        self.bot.send_message(message.chat.id, text=MATERIALS_ADDING_EXPLANATION)
+    
     def add_links(self, links_path, links_to_add):
         with open(links_path, 'w') as file:
             file.write('\n' + links_to_add)
-    
+
     def add_documents(self, documents_path, document_to_add):
         with open(documents_path, 'wb') as f:
             f.write(document_to_add.read())

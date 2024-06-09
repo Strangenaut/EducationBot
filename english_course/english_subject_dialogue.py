@@ -24,6 +24,8 @@ class EnglishSubjectDialogue(SubjectDialogue):
             WORDS_TEST: self.send_word_test_explanation,
             REMEMBER: self.send_word_question,
             FORGOT: self.send_word_question,
+            LINKS: self.send_links_adding_explanation,
+            MATERIALS: self.send_materials_adding_explanation
         }
         links_path = os.path.join(materials_path, 'links.txt')
         super().__init__(
