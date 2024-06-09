@@ -34,3 +34,12 @@ class SubjectDialogue:
 
     def send_useful_links(self, message):
         self.bot.send_message(message.chat.id, text=self.links, disable_web_page_preview=True)
+
+    def add_links(self):
+        pass
+    
+    def add_documents(self):
+        pass
+    
+    def add_materials(self):
+        pass

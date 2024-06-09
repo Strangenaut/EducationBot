@@ -63,6 +63,8 @@ class MathSubjectDialogue(SubjectDialogue):
     def send_training_materials(self, message):
         subject_name = self.translation_dict[message.text]
         subject_path = os.path.join(self.materials_path, subject_name)
+
+        
         media = load_files(subject_path)
 
         documents = list(
@@ -72,10 +74,13 @@ class MathSubjectDialogue(SubjectDialogue):
                     media
                 )
             )
-        self.bot.send_media_group(
-                message.chat.id,
-                documents
-        )
+        
+        if not os.path.exists(subject_path):
+            self.bot.send_media_group(
+                    message.chat.id,
+                    documents
+                )
+            
         links_path = os.path.join(subject_path, f'{LINKS_FILE_NAME}.txt')
 
         if not os.path.exists(links_path):
