@@ -2,7 +2,7 @@ import os
 import telebot
 from telebot import types
 from english_course.english_subject_dialogue import EnglishSubjectDialogue
-from math_course.math_course import *
+from math_course.math_subject_dialogue import *
 from config import *
 from english_course.config import *
 from math_course.config import *
