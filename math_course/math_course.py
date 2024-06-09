@@ -42,14 +42,16 @@ class MathSubjectDialogue(SubjectDialogue):
     def send_options(self, message):
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
-        i = 1
-        while i < len(self.options_descriptions):
+        options_count = len(self.options_descriptions)
+
+        for i in range(0, options_count - 1, 2):
             markup.row(
-                self.options_descriptions[i - 1], 
-                self.options_descriptions[i]
+                self.options_descriptions[i],
+                self.options_descriptions[i + 1]
             )
-            i += 2
-        markup.add(self.options_descriptions[-1])
+
+        if options_count % 2:
+            markup.add(self.options_descriptions[-1])
 
         self.bot.send_message(
             message.chat.id, 
