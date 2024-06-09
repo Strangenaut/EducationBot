@@ -27,12 +27,13 @@ class EnglishSubjectDialogue(SubjectDialogue):
             LINKS: self.send_links_adding_explanation,
             MATERIALS: self.send_materials_adding_explanation
         }
+        links_path = os.path.join(materials_path, 'links.txt')
         super().__init__(
             bot=bot, 
             materials_path=materials_path,
             options_descriptions=options_descriptions,
             text_reply_scenarios=text_reply_scenarios,
-            links=ENGLISH_LINKS
+            links_path=links_path
         )
 
         self.all_words = self.load_words()

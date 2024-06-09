@@ -1,5 +1,5 @@
-link 1:
+Ссылка 1:
 https://example.com
 
-link 2:
+Ссылка 2:
 https://example1.com
