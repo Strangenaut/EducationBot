@@ -25,12 +25,13 @@ class EnglishSubjectDialogue(SubjectDialogue):
             REMEMBER: self.send_word_question,
             FORGOT: self.send_word_question,
         }
+        links_path = os.path.join(materials_path, 'links.txt')
         super().__init__(
             bot=bot, 
             materials_path=materials_path,
             options_descriptions=options_descriptions,
             text_reply_scenarios=text_reply_scenarios,
-            links=ENGLISH_LINKS
+            links_path=links_path
         )
 
         self.all_words = self.load_words()

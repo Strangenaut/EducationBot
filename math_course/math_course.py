@@ -24,7 +24,7 @@ class MathSubjectDialogue(SubjectDialogue):
             materials_path=materials_path, 
             options_descriptions=options_descriptions, 
             text_reply_scenarios=None, 
-            links=None
+            links_path=None
         )
         self.translation_dict = {
             subject_name: subject_name_translation 
@@ -62,31 +62,16 @@ class MathSubjectDialogue(SubjectDialogue):
 
     def send_training_materials(self, message):
         subject_name = self.translation_dict[message.text]
-        subject_path = os.path.join(self.materials_path, subject_name)
-
-        
-        media = load_files(subject_path)
-
-        documents = list(
-            filter(
-                lambda x: 
-                    not x.media.file_name.endswith('.txt'),
-                    media
-                )
+        subject_path = os.path.join(
+            PROJECT_ROOT_PATH, 
+            'math_course', 
+            'data',
+            subject_name
             )
-        
-        if not os.path.exists(subject_path):
-            self.bot.send_media_group(
-                    message.chat.id,
-                    documents
-                )
-            
-        links_path = os.path.join(subject_path, f'{LINKS_FILE_NAME}.txt')
-
-        if not os.path.exists(links_path):
-            return
-
-        with open(links_path, 'r') as file:
-            self.links = file.read()
-
+        self.materials_path = os.path.join(
+            subject_path,
+            'materials'
+            )
+        super().send_training_materials(message)
+        self.links_path = os.path.join(subject_path, 'links.txt')
         self.send_useful_links(message)
