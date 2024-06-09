@@ -20,14 +20,25 @@ current_subject_dialogue = None
 
 @bot.message_handler(commands=['start'])
 def start_bot(message):
-    markup = types.ReplyKeyboardMarkup(row_width = 2, resize_keyboard=True)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     buttons_row = [
-        types.KeyboardButton(SUBJECT_ENGLISH), 
+        types.KeyboardButton(SUBJECT_ENGLISH),
         types.KeyboardButton(SUBJECT_MATH)
     ]
     markup.add(*buttons_row)
     
     bot.send_message(message.chat.id, WELCOME_MESSAGE, reply_markup=markup)
+
+@bot.message_handler(commands=['add'])
+def add_materials(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    buttons_row = [
+        types.KeyboardButton(MATERIALS),
+        types.KeyboardButton(LINKS)
+    ]
+    markup.add(*buttons_row)
+    
+    bot.send_message(message.chat.id, DATA_TO_ADD, reply_markup=markup)
 
 @bot.message_handler(content_types=['text'])
 def send_reply_to_text(message):

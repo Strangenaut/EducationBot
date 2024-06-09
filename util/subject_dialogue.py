@@ -30,10 +30,16 @@ class SubjectDialogue:
     def send_training_materials(self, message):
         self.bot.send_message(message.chat.id, TAKE_MATERIALS)
         media = load_files(self.materials_path)
-        self.bot.send_media_group(message.chat.id, media) 
+        self.bot.send_media_group(message.chat.id, media)
 
     def send_useful_links(self, message):
         self.bot.send_message(message.chat.id, text=self.links, disable_web_page_preview=True)
+
+    def send_links_adding_explanation(self, message):
+        self.bot.send_message(message.chat.id, text=LINKS_ADDING_EXPLANATION)
+    
+    def send_materials_adding_explanation(self, message):
+        self.bot.send_message(message.chat.id, text=MATERIALS_ADDING_EXPLANATION)
 
     def add_links(self):
         pass
