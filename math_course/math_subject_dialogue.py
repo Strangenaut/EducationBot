@@ -2,7 +2,6 @@ import os
 from telebot import types
 from config import *
 from math_course.config import *
-from util.load_files import load_files
 from util.subject_dialogue import SubjectDialogue
 
 
