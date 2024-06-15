@@ -3,7 +3,7 @@ import pandas as pd
 import random
 from telebot import types
 from util.dict_slice import dict_slice
-from util.subject_dialogue import SubjectDialogue
+from core.subject_dialogue import SubjectDialogue
 from config import *
 from english_course.config import *
 
